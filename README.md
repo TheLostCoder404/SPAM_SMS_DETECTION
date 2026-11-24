@@ -1,156 +1,261 @@
-# 📩 SPAM SMS DETECTION
+# 📩 Spam SMS Detection Using Machine Learning
 
-## 📌 Project Overview
-This machine learning project classifies SMS messages into two categories:
-- **Ham:** legitimate messages
-- **Spam:** unwanted or potentially fraudulent messages
+## 📌 1. Project Overview
 
-The project uses **TF-IDF** to convert text into numerical features and compares three machine learning algorithms: Multinomial Naive Bayes, Logistic Regression, and Linear Support Vector Machine (SVM).
+**Spam SMS Detection** is a Machine Learning project that classifies a text message as **spam** or **ham** (legitimate). It converts message text into numerical features with TF-IDF and compares three classifiers: Multinomial Naive Bayes, Logistic Regression, and Linear Support Vector Machine (SVM).
 
-## 🎯 Objectives
-- Prepare and analyze a labeled SMS dataset.
-- Clean and preprocess message data.
-- Extract text features using TF-IDF.
-- Train and compare three classification algorithms.
-- Evaluate models using accuracy, precision, recall, F1-score, and confusion matrices.
-- Save the trained models and deploy a prediction interface using Streamlit.
+The best-performing model is saved and used by a Streamlit web application, where a user can enter a message and receive a prediction.
 
-## 📂 Dataset
-The project uses the CSV contained in the ZIP file supplied for this project.
+---
 
-After selecting the two useful columns and removing duplicate records, the prepared dataset contains **5,158 messages**:
-- Ham: **4,516**
-- Spam: **642**
+## 🎯 2. Problem Statement
 
-Original CSV columns `v1` and `v2` are interpreted as label and message. Extra mostly empty columns are excluded.
+Unwanted and fraudulent text messages can contain misleading offers, suspicious links, or requests for personal information. Reviewing every message manually can be difficult, so this project applies text classification to identify patterns associated with spam and legitimate messages.
 
-## 🧠 Machine Learning Algorithms
-1. **Multinomial Naive Bayes** – probabilistic classifier commonly used for text classification.
-2. **Logistic Regression** – linear binary classifier that estimates class probabilities.
-3. **Linear SVM** – finds a separating hyperplane for high-dimensional TF-IDF features.
+### 🔍 Problems Addressed
 
-## 🔤 Feature Extraction
-TF-IDF (Term Frequency–Inverse Document Frequency) converts SMS text into numerical features. The vectorizer uses unigram and bigram features. It is fitted only on the training data to avoid test-data leakage.
+- Prepare labeled SMS messages for analysis.
+- Convert message text into useful numerical features.
+- Compare different classification algorithms.
+- Evaluate how well the models identify spam messages.
+- Provide an interactive interface for trying a message.
 
-## 🔄 Workflow
-1. Load the SMS dataset.
-2. Keep the label and message columns.
-3. Remove duplicate or invalid rows.
-4. Split data into training (80%) and testing (20%) sets using stratification.
-5. Fit TF-IDF on training messages.
-6. Train Naive Bayes, Logistic Regression, and Linear SVM.
-7. Compare their test-set metrics.
-8. Save all trained pipelines and the best-performing pipeline.
-9. Run the Streamlit application for new SMS predictions.
+The model provides an estimate based on patterns in its training data. It cannot guarantee that a message or link is safe.
 
-## 📊 Evaluation Results
-The models were evaluated on a held-out test set. Results from this dataset run:
+---
+
+## 🎯 3. Project Objectives
+
+- Load and prepare the SMS message dataset.
+- Remove duplicate or invalid records and retain the label and message columns.
+- Split the data into training and testing sets.
+- Extract text features using TF-IDF with unigram and bigram features.
+- Train and compare three Machine Learning classifiers.
+- Save the trained models and evaluation results.
+- Build a Streamlit application for single-message predictions.
+
+---
+
+## 📊 4. Dataset Description
+
+The project includes a raw SMS dataset at `data/raw/spam.csv` and a prepared dataset at `data/processed/cleaned_spam.csv`. The prepared file retains the label and message columns; extra mostly empty columns from the raw CSV are excluded.
+
+### Dataset Information
+
+- 📌 Records after cleaning: **5,158**
+- 📌 Ham messages: **4,516**
+- 📌 Spam messages: **642**
+- 📌 Input: SMS message text
+- 📌 Target: `label` (`ham` or `spam`)
+
+The training script uses an 80:20 stratified train-test split with a fixed random state of 42. The source and license details for the supplied dataset should be checked in its original documentation before redistributing it.
+
+---
+
+## 🛠️ 5. Technologies Used
+
+| Technology | Purpose |
+|:---|:---|
+| 🐍 Python | Programming language |
+| 🐼 Pandas | Loading and preparing tabular data |
+| 🔢 NumPy | Numerical operations and dependency support |
+| 🤖 Scikit-learn | TF-IDF, model training, and evaluation |
+| 📈 Matplotlib | Project visualizations |
+| 💾 Joblib | Saving and loading trained models |
+| 🌐 Streamlit | Interactive prediction application |
+
+---
+
+## 🔄 6. Project Workflow
+
+1. 📂 Load the prepared SMS dataset.
+2. 🧹 Use the message text and corresponding labels.
+3. ✂️ Split the data into training and test sets, preserving class proportions.
+4. 🔤 Fit a TF-IDF vectorizer on training messages using unigrams and bigrams.
+5. 🤖 Train Naive Bayes, Logistic Regression, and Linear SVM classifiers.
+6. 📈 Compare test-set accuracy, spam precision, spam recall, and spam F1-score.
+7. 🏆 Select the model with the best spam F1-score (then recall and precision as tie-breakers).
+8. 💾 Save model pipelines, model information, and evaluation reports.
+9. 🌐 Load the selected model in the Streamlit app to classify entered messages.
+
+---
+
+## 🤖 7. Machine Learning Algorithms
+
+The project compares three text-classification algorithms:
+
+1. **Multinomial Naive Bayes** — a probabilistic classifier commonly used with word-count or TF-IDF text features.
+2. **Logistic Regression** — a linear classifier that estimates class probabilities.
+3. **Linear Support Vector Machine (SVM)** — finds a decision boundary for separating classes in the high-dimensional TF-IDF feature space.
+
+Each model is trained in a pipeline with the same TF-IDF configuration so their results can be compared on the same held-out test set.
+
+---
+
+## 📈 8. Model Evaluation
+
+The models are evaluated on the test set using accuracy, spam precision, spam recall, and spam F1-score.
+
+### 🏆 Model Performance Comparison
 
 | Model | Accuracy | Spam Precision | Spam Recall | Spam F1-score |
-|---|---:|---:|---:|---:|
-| Linear SVM | 0.9845 | 0.9828 | 0.8906 | 0.9344 |\n| Naive Bayes | 0.9806 | 0.9909 | 0.8516 | 0.9160 |\n| Logistic Regression | 0.9622 | 0.9890 | 0.7031 | 0.8219 |\n
-**Selected model:** Linear SVM
+|:---|---:|---:|---:|---:|
+| Linear SVM | 0.9845 | 0.9828 | 0.8906 | **0.9344** |
+| Naive Bayes | 0.9806 | 0.9909 | 0.8516 | 0.9160 |
+| Logistic Regression | 0.9622 | 0.9890 | 0.7031 | 0.8219 |
 
-The best model is selected by Spam F1-score, with Spam recall and precision used to break ties. Results are specific to this train/test split and may differ if the data or settings change.
+**Selected model:** Linear SVM. The selection uses spam F1-score, then spam recall and precision to break ties. These results are specific to the included train-test split and may change with different data or settings.
 
-## 📈 Project Visualizations
-Generated graphs are saved in `outputs/figures/`:
-- `sms_class_distribution.png`
-- `message_length_distribution.png`
-- `frequent_spam_words.png`
-- `model_performance_comparison.png`
-- `model_confusion_matrices.png`
+Detailed results are stored in `outputs/model_comparison.csv`; classification reports are stored in `outputs/classification_reports.txt`.
 
-## 🗂️ Project Structure
+---
+
+## 📊 9. Output Graphs
+
+The project archive includes the following figures in `outputs/figures/`:
+
+- `sms_class_distribution.png` — ham and spam class counts.
+- `message_length_distribution.png` — distribution of message lengths.
+- `frequent_spam_words.png` — frequent terms in spam messages.
+- `model_performance_comparison.png` — comparison of model metrics.
+- `model_confusion_matrices.png` — test-set classification outcomes.
+
+---
+
+## 🌐 10. Web Application
+
+The Streamlit app lets a user enter one SMS message and view the model’s predicted class.
+
+### ✨ Key Features
+
+- 📝 Text box for entering an SMS message.
+- 🤖 Classification as **SPAM** or **HAM (LEGITIMATE)**.
+- 💾 Loads the saved best model from `models/best_model.pkl`.
+- ⚡ Predicts without retraining the model during normal app use.
+- ⚠️ Displays a reminder that predictions may be incorrect.
+
+---
+
+## 📁 11. Project Structure
+
 ```text
 SPAM_SMS_DETECTION/
 ├── data/
 │   ├── raw/
 │   │   └── spam.csv
-│   └── processed/
-│       └── cleaned_spam.csv
+│   ├── processed/
+│   │   └── cleaned_spam.csv
+│   └── README.txt
 ├── models/
-│   ├── naive_bayes_model.pkl
-│   ├── logistic_regression_model.pkl
-│   ├── linear_svm_model.pkl
-│   ├── tfidf_vectorizer.pkl
 │   ├── best_model.pkl
-│   └── best_model_info.json
+│   ├── best_model_info.json
+│   ├── linear_svm_model.pkl
+│   ├── logistic_regression_model.pkl
+│   ├── naive_bayes_model.pkl
+│   └── tfidf_vectorizer.pkl
 ├── outputs/
 │   ├── figures/
-│   ├── model_comparison.csv
-│   └── classification_reports.txt
+│   ├── classification_reports.txt
+│   └── model_comparison.csv
 ├── src/
 │   └── train.py
 ├── app.py
+├── README.md
 ├── requirements.txt
-├── .gitignore
-└── README.md
+└── .gitignore
 ```
 
-## ⚙️ Installation and Setup
+---
 
-### 1. Clone the repository
+## ⚙️ 12. How to Run the Project
+
+### Step 1: Clone the Repository
+
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/TheLostCoder404/SPAM_SMS_DETECTION.git
 cd SPAM_SMS_DETECTION
 ```
 
-### 2. Create and activate a virtual environment
-**Windows:**
+### Step 2: Create a Virtual Environment
+
 ```bash
 python -m venv venv
-venv\Scripts\activate
+```
+
+### Step 3: Activate the Virtual Environment
+
+**Windows PowerShell:**
+
+```powershell
+venv\Scripts\Activate.ps1
 ```
 
 **macOS / Linux:**
+
 ```bash
-python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Install dependencies
+### Step 4: Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-## ▶️ Run the Project
+### Step 5: Run the Streamlit Application
 
-### Train the models again
-```bash
-python src/train.py
-```
-
-### Launch the web application
 ```bash
 streamlit run app.py
 ```
 
-Open the local URL displayed in your terminal (usually `http://localhost:8501`).
+Open the local URL shown in the terminal (usually `http://localhost:8501`). The included trained model lets the app make predictions without retraining.
 
-## 🚀 Deploy on Streamlit Community Cloud
-1. Push this project folder to a GitHub repository.
-2. Open [Streamlit Community Cloud](https://share.streamlit.io/).
-3. Connect your GitHub account and select the repository.
-4. Set the main file path to `app.py`.
-5. Deploy the application.
+### Optional: Train the Models Again
 
-The `models/` folder is included in the repository, so the deployed app can load the trained model without retraining.
+```bash
+python src/train.py
+```
 
-## 🧪 Example Messages
-- **Possible spam:** `Congratulations! You have won a free prize. Call now!`
-- **Possible ham:** `Hey, are we still meeting for lunch today?`
+The training script expects `data/processed/cleaned_spam.csv` to be present. It writes trained models to `models/` and evaluation tables and reports to `outputs/`.
 
-Predictions depend on the learned patterns in the training data; these examples are not guaranteed labels.
+---
 
-## ⚠️ Limitations
-- The model learns from the dataset and may not recognize new spam styles.
-- A legitimate message can be incorrectly classified as spam, and vice versa.
-- Do not treat the output as a guarantee that a link or sender is safe.
-- The dataset is imbalanced, so accuracy should be considered together with Spam precision, recall, and F1-score.
+## ⚠️ 13. Project Limitations
 
-## 🛠️ Technologies Used
-Python | Pandas | NumPy | Scikit-learn | Matplotlib | Joblib | Streamlit
+- The dataset is imbalanced, with fewer spam messages than ham messages.
+- The model can miss new spam patterns or incorrectly flag a legitimate message.
+- Evaluation results depend on the supplied dataset and the selected train-test split.
+- A model prediction is not a guarantee that a sender, message, or link is safe.
+- Check the original dataset documentation and license before sharing the dataset further.
 
-## 👨‍💻 Author
-Add your name, GitHub profile, and contact details here.
+---
+
+## 🚀 14. Future Improvements
+
+- Add cross-validation and hyperparameter tuning.
+- Evaluate performance on newer and more varied SMS data.
+- Add a batch prediction option for multiple messages.
+- Add clearer explanations of which message features influence a prediction.
+- Expand automated data preparation and visualization steps.
+- Deploy the Streamlit app to a hosting service.
+
+---
+
+## 🏁 15. Conclusion
+
+This project demonstrates an end-to-end SMS spam classification workflow, from preparing labeled text and building TF-IDF features to comparing classifiers and serving predictions in a Streamlit app. On the included test split, Linear SVM achieved the highest spam F1-score among the three evaluated models.
+
+---
+
+## 👨‍💻 Project Information
+
+- **Project:** Spam SMS Detection Using Machine Learning
+- **GitHub Repository:** [SPAM_SMS_DETECTION](https://github.com/TheLostCoder404/SPAM_SMS_DETECTION)
+
+---
+
+## ⭐ Support the Project
+
+If this project is useful to you, consider starring the repository and sharing feedback.
+
+`#MachineLearning` `#Python` `#SMSSpamDetection` `#NLP` `#ScikitLearn` `#Streamlit`
