@@ -1,0 +1,38 @@
+SPAM SMS DETECTION - CLASSIFICATION REPORTS
+=======================================================
+
+Naive Bayes
+----------------------------------------
+              precision    recall  f1-score   support
+
+         Ham       0.98      1.00      0.99       904
+        Spam       0.99      0.85      0.92       128
+
+    accuracy                           0.98      1032
+   macro avg       0.99      0.93      0.95      1032
+weighted avg       0.98      0.98      0.98      1032
+
+
+Logistic Regression
+----------------------------------------
+              precision    recall  f1-score   support
+
+         Ham       0.96      1.00      0.98       904
+        Spam       0.99      0.70      0.82       128
+
+    accuracy                           0.96      1032
+   macro avg       0.97      0.85      0.90      1032
+weighted avg       0.96      0.96      0.96      1032
+
+
+Linear SVM
+----------------------------------------
+              precision    recall  f1-score   support
+
+         Ham       0.98      1.00      0.99       904
+        Spam       0.98      0.89      0.93       128
+
+    accuracy                           0.98      1032
+   macro avg       0.98      0.94      0.96      1032
+weighted avg       0.98      0.98      0.98      1032
+

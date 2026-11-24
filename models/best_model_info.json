@@ -1,0 +1,18 @@
+{
+    "best_model": "Linear SVM",
+    "selection_criteria": "Highest Spam F1-score; ties are broken by Spam recall, then Spam precision.",
+    "random_state": 42,
+    "test_size": 0.2,
+    "tfidf": {
+        "ngram_range": [
+            1,
+            2
+        ],
+        "min_df": 2,
+        "max_df": 0.98,
+        "sublinear_tf": true
+    },
+    "dataset_rows_after_cleaning": 5158,
+    "training_rows": 4126,
+    "testing_rows": 1032
+}
